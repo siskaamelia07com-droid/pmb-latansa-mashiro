@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="style.css">
+<title>PMB Universitas La Tansa Mashiro</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- FONT BARU -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  /* TABEL PENDAFTAR */
+.pendaftar-card{
+  background:white;
+  border-left:6px solid var(--toska);
+  padding:15px;
+  border-radius:12px;
+  margin-bottom:15px;
+}
+.pendaftar-card small{
+  color:#555;
+}
+:root{
+  --muda:#a7f3d0;
+  --toska:#14b8a6;
+  --gelap:#0f172a;
+}
+
+*{box-sizing:border-box}
+
+/* FONT GLOBAL */
+body,input,select,button,p,li{
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+  background:
+    linear-gradient(135deg,rgba(20,184,166,.2),rgba(167,243,208,.3)),
+    repeating-linear-gradient(
+      45deg,
+      rgba(0,0,0,.05),
+      rgba(0,0,0,.05) 10px,
+      transparent 10px,
+      transparent 20px
+    );
+}
+
+header{
+  background:linear-gradient(135deg,var(--toska),#0d9488);
+  color:white;
+  padding:20px;
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+
+/* JUDUL UTAMA TIDAK DIGANTI FONT */
+header h2, header small{
+  font-family:Segoe UI,sans-serif;
+}
+
+header img{width:98px}
+
+nav{
+  background:#0f766e;
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  padding:10px;
+}
+
+nav button{
+  border:none;
+  padding:10px 20px;
+  border-radius:20px;
+  cursor:pointer;
+  font-weight:600;
+}
+
+nav button:hover{background:var(--muda)}
+
+.container{
+  max-width:900px;
+  margin:30px auto;
+  background:rgb(236,244,249);
+  padding:25px;
+  border-radius:15px;
+  box-shadow:0 10px 30px rgba(0,0,0,.15);
+}
+
+.hidden{display:none}
+
+h2{color:#053731}
+
+input,select{
+  width:100%;
+  padding:10px;
+  margin:8px 0;
+  border-radius:8px;
+  border:1px solid #ccc;
+}
+
+.buttons{
+  display:flex;
+  justify-content:space-between;
+  margin-top:20px;
+}
+
+.buttons button{
+  background:var(--toska);
+  color:white;
+  border:none;
+  padding:10px 25px;
+  border-radius:20px;
+  cursor:pointer;
+}
+
+.loading{
+  text-align:center;
+  padding:40px;
+}
+
+.loading span{
+  display:inline-block;
+  width:15px;height:15px;
+  background:var(--toska);
+  border-radius:50%;
+  margin:5px;
+  animation:load 1.2s infinite;
+}
+
+.loading span:nth-child(2){animation-delay:.2s}
+.loading span:nth-child(3){animation-delay:.4s}
+
+@keyframes load{
+  0%,80%,100%{transform:scale(0)}
+  40%{transform:scale(1)}
+}
+
+.card{
+  border:1px solid #e5e7eb;
+  padding:15px;
+  border-radius:12px;
+  margin-bottom:15px;
+}
+
+.total{
+  background:#ecfeff;
+  padding:15px;
+  border-radius:10px;
+  font-weight:bold;
+}
+
+/* HALAMAN TERIMA KASIH */
+.thanks-box{
+  text-align:center;
+  padding:40px;
+  animation:fadeIn 1s ease;
+}
+
+.check{
+  width:120px;height:120px;
+  border-radius:50%;
+  background:var(--muda);
+  margin:0 auto 20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:60px;
+  color:#065f46;
+  animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+  0%{transform:scale(1)}
+  50%{transform:scale(1.1)}
+  100%{transform:scale(1)}
+}
+
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* GELEMBUNG */
+.bubble{
+  position:fixed;
+  bottom:-50px;
+  background:rgba(20,184,166,.3);
+  border-radius:50%;
+  animation:float 8s infinite;
+  z-index:-1;
+}
+
+@keyframes float{
+  to{transform:translateY(-120vh)}
+}
+.detail-box{
+  background:white;
+  border:2px solid var(--toska);
+  border-radius:15px;
+  padding:20px;
+}
+.detail-grid{
+  display:grid;
+  grid-template-columns:180px auto;
+  gap:8px;
+  margin-bottom:15px;
+}
+.detail-total{
+  background:#ecfeff;
+  padding:12px;
+  border-radius:10px;
+  font-weight:bold;
+  text-align:right;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+  <img src="logo-unilam.png/WhatsApp_Image_2025-12-31_at_11.34.16-removebg-preview.png">
+  <div>
+    <h2>PENERIMAAN MAHASISWA BARU <br> UNIVERSITAS LA TANSA MASHIRO</h2>
+    <small>Tahun Akadamik 2026</small>
+  </div>
+</header>
+
+<nav>
+  <button onclick="home()">Beranda</button>
+  <button onclick="daftar()">Pendaftaran</button>
+  <button onclick="hasil()">Lihat Hasil</button>
+  <button onclick="lihatPendaftar()">Lihat Pendaftar</button>
+  <button onclick="fakultas()">Lihat Fakultas</button>
+</nav>
+
+<div class="container">
+
+<div id="home">
+  <h2>🎉 HALLO MAHASISWA BARU</h2>
+  <p>Welcome to the new student admissions system at La Tansa Mashiro University.</p>
+  <button onclick="daftar()" style="padding:15px 30px;border-radius:30px;background:#14b8a6;color:white;border:none;font-size:16px">
+    DAFTAR SEKARANG
+  </button>
+</div>
+
+<div id="loading" class="hidden loading">
+  <h3>Sedang Memproses...</h3>
+  <span></span><span></span><span></span>
+</div>
+
+<div id="step1" class="hidden">
+  <h2>Data Pribadi</h2>
+  <input id="nama" placeholder="Nama Lengkap">
+  <input id="nik" placeholder="NIK">
+  <input id="ttl" placeholder="Tempat, Tanggal Lahir">
+  <div class="buttons">
+    <button onclick="home()">Kembali</button>
+    <button onclick="step(2)">Lanjut</button>
+  </div>
+</div>
+
+<div id="step2" class="hidden">
+  <h2>Alamat & Kontak</h2>
+  <input id="alamat" placeholder="Alamat Lengkap">
+  <input id="hp" placeholder="No HP">
+  <input id="email" placeholder="Email">
+  <div class="buttons">
+    <button onclick="step(1)">Kembali</button>
+    <button onclick="step(3)">Lanjut</button>
+  </div>
+</div>
+
+<div id="step3" class="hidden">
+  <h2>Data Orang Tua</h2>
+  <input id="ayah" placeholder="Nama Ayah">
+  <input id="ibu" placeholder="Nama Ibu">
+  <input id="kerja" placeholder="Pekerjaan Ayah">
+  <div class="buttons">
+    <button onclick="step(2)">Kembali</button>
+    <button onclick="step(4)">Lanjut</button>
+  </div>
+</div>
+
+<div id="step4" class="hidden">
+  <h2>Data Pendidikan</h2>
+  <input id="sekolah" placeholder="Asal Sekolah">
+  <input id="jurusan" placeholder="Jurusan">
+  <input id="lulus" placeholder="Tahun Lulus">
+  <div class="buttons">
+    <button onclick="step(3)">Kembali</button>
+    <button onclick="step(5)">Lanjut</button>
+  </div>
+</div>
+
+<div id="step5" class="hidden">
+  <h3>Metode Pembayaran</h3>
+  <select id="metode">
+  <option>Bayar di Kampus</option>
+  <option>Transfer Bank BTN</option>
+  </select>
+
+  <label style="display:block;margin-top:10px">
+    <input type="checkbox" id="lunas"> Sudah Dilunasi
+  </label>
+
+  <h2>Program Studi</h2>
+  <select id="prodi">
+    <option value="2500000">S1 Manajemen</option>
+    <option value="2500000">S1 Akuntansi</option>
+    <option value="2500000">S1 Informatika</option>
+    <option value="2500000">S1 Sistem Informasi</option>
+    <option value="2500000">S1 Bahasa Inggris</option>
+    <option value="2500000">S1 Matematika</option>
+    <option value="2500000">S1 Biologi</option>
+    <option value="2500000">S1 Ekonomi Syariah</option>
+    <option value="2500000">S1 Pendidikan Agama Islam</option>
+    <option value="2500000">S1 Pendidikan Islam Anak Usia Dini</option>
+    <option value="3500000">D3 Gizi</option>
+    <option value="3500000">D3 Kebidanan</option>
+  </select>
+
+  <div class="buttons">
+    <button onclick="step(4)">Kembali</button>
+    <button onclick="buatStruk()">Daftar Sekarang</button>
+  </div>
+</div>
+
+<div id="hasil" class="hidden">
+  <h2>Hasil Pendaftaran</h2>
+  <div id="struk"></div>
+  <button onclick="home()">Kembali</button>
+</div>
+
+<div id="thanks" class="hidden">
+  <div class="thanks-box">
+    <div class="check">✓</div>
+    <h2>Terima Kasih 🎉</h2>
+    <p>Pendaftaran Anda berhasil dan data telah kami terima.</p>
+    <button onclick="hasil()">Lihat Hasil</button>
+  </div>
+</div>
+
+<div id="fakultas" class="hidden">
+  <h2>Daftar Fakultas</h2>
+
+  <div class="card"><b>Fakultas Ekonomi & Bisnis</b>
+  <ul><li>S2 Magister Manajemen</li><li>S1 Manajemen</li><li>S1 Akuntansi</li></ul></div>
+
+  <div class="card"><b>Fakultas Teknologi & Informasi</b>
+  <ul><li>S1 Sistem Informasi</li><li>S1 Informatika</li></ul></div>
+
+  <div class="card"><b>FKIP</b>
+  <ul><li>S1 Bahasa Inggris</li><li>S1 Matematika</li><li>S1 Biologi</li></ul></div>
+
+  <div class="card"><b>Fakultas Kesehatan</b>
+  <ul><li>D3 Gizi</li><li>D3 Kebidanan</li></ul></div>
+
+  <div class="card"><b>Fakultas Agama Islam</b>
+  <ul><li>S1 Ekonomi Syariah</li><li>S1 PAI</li><li>S1 PIAUD</li></ul></div>
+
+  <button onclick="home()">Kembali</button>
+</div>
+
+<div id="pendaftar" class="hidden">
+  <h2>📋 Daftar Seluruh Pendaftar</h2>
+  <div id="listPendaftar"></div>
+  <button onclick="home()">Kembali</button>
+</div>
+
+<div id="detailPendaftar" class="hidden">
+  <h2>📄 Detail Data Pendaftar</h2>
+  <div id="isiDetail"></div>
+  <button onclick="lihatPendaftar()">Kembali ke Daftar</button>
+</div>
+
+</div>
+
+<!-- GELEMBUNG -->
+<div class="bubble" style="width:40px;height:40px;left:10%"></div>
+<div class="bubble" style="width:60px;height:60px;left:30%;animation-delay:2s"></div>
+<div class="bubble" style="width:30px;height:30px;left:70%;animation-delay:4s"></div>
+
+<script>
+function hideAll(){
+  document.querySelectorAll('.container > div').forEach(e=>e.classList.add('hidden'))
+}
+
+function loading(next){
+  hideAll()
+  loadingDiv.classList.remove('hidden')
+  setTimeout(()=>{hideAll();next()},700)
+}
+
+const loadingDiv=document.getElementById('loading')
+
+function home(){loading(()=>homeDiv.classList.remove('hidden'))}
+function daftar(){loading(()=>step1.classList.remove('hidden'))}
+function hasil(){loading(()=>hasilDiv.classList.remove('hidden'))}
+function fakultas(){loading(()=>fakultasDiv.classList.remove('hidden'))}
+
+function step(n){
+  loading(()=>document.getElementById('step'+n).classList.remove('hidden'))
+}
+
+function buatStruk(){
+  let upp=Number(prodi.value)
+  let total=upp+250000+5000000+50000+600000+250000
+  let nim="ULM"+Math.floor(Math.random()*900000+100000)
+
+  struk.innerHTML=`
+  <b>DATA PENDAFTAR</b><br><br>
+  Nama: ${nama.value}<br>
+  NIK: ${nik.value}<br>
+  TTL: ${ttl.value}<br>
+  Alamat: ${alamat.value}<br>
+  HP: ${hp.value}<br>
+  Email: ${email.value}<br>
+  Sekolah: ${sekolah.value}<br>
+  Program Studi: ${prodi.options[prodi.selectedIndex].text}<br><br>
+
+  <b>RINCIAN BIAYA</b><br>
+  UPP: Rp ${upp.toLocaleString()}<br>
+  UTS: Rp 250.000<br>
+  Bangunan: Rp 5.000.000<br>
+  Kemahasiswaan: Rp 50.000<br>
+  PKKMB: Rp 600.000<br>
+  Pendaftaran: Rp 250.000<br><br>
+
+  <b>Total: Rp ${total.toLocaleString()}</b><br><br>
+  <b>NIM:</b> ${nim}
+  `
+  loading(()=>thanks.classList.remove('hidden'))
+}
+
+const homeDiv=document.getElementById('home')
+const step1=document.getElementById('step1')
+const hasilDiv=document.getElementById('hasil')
+const fakultasDiv=document.getElementById('fakultas')
+</script>
+<script>
+/* ===============================
+   TAMBAHAN FITUR LIHAT PENDAFTAR
+   =============================== */
+
+// array penyimpanan
+let dataPendaftar = []
+
+// override fungsi buatStruk TANPA MENGUBAH ISINYA
+const buatStrukAsli = buatStruk
+buatStruk = function(){
+  let upp = Number(prodi.value)
+  let total = upp+250000+5000000+50000+600000+250000
+  let nim = "ULM"+Math.floor(Math.random()*900000+100000)
+
+  let tanggal = new Date().toLocaleString('id-ID')
+
+  // simpan data
+  dataPendaftar.push({
+    nama:nama.value,
+    nik:nik.value,
+    ttl:ttl.value,
+    alamat:alamat.value,
+    hp:hp.value,
+    email:email.value,
+    sekolah:sekolah.value,
+    prodi:prodi.options[prodi.selectedIndex].text,
+    total:total,
+    nim:nim,
+    tanggal:tanggal
+  })
+
+  // jalankan fungsi lama
+  buatStrukAsli()
+}
+
+// menu lihat pendaftar
+function lihatPendaftar(){
+  loading(()=>{
+    let box = document.getElementById("listPendaftar")
+    box.innerHTML = ""
+
+    if(dataPendaftar.length===0){
+      box.innerHTML = "<p>Belum ada pendaftar.</p>"
+    }
+
+    dataPendaftar.forEach((d,i)=>{
+      box.innerHTML += `
+      <div class="pendaftar-card" onclick="detailPendaftar(${i})" style="cursor:pointer">
+        <b>${i+1}. ${d.nama}</b><br>
+        <small>NIM: ${d.nim}</small><br>
+        <small>Program Studi: ${d.prodi}</small><br>
+        <small>Total Biaya: Rp ${d.total.toLocaleString()}</small><br>
+        <small>Tanggal Daftar: ${d.tanggal}</small>
+      </div>
+      `
+    })
+
+    document.getElementById("pendaftar").classList.remove("hidden")
+  })
+}
+</script>
+<script>
+function detailPendaftar(index){
+  loading(()=>{
+    let d = dataPendaftar[index]
+    let box = document.getElementById("isiDetail")
+
+    box.innerHTML = `
+    <div class="detail-box">
+
+      <div class="detail-grid">
+        <div>Nama Lengkap</div><div>: ${d.nama}</div>
+        <div>NIK</div><div>: ${d.nik}</div>
+        <div>TTL</div><div>: ${d.ttl}</div>
+        <div>Alamat</div><div>: ${d.alamat}</div>
+        <div>No HP</div><div>: ${d.hp}</div>
+        <div>Email</div><div>: ${d.email}</div>
+        <div>Asal Sekolah</div><div>: ${d.sekolah}</div>
+        <div>Program Studi</div><div>: ${d.prodi}</div>
+        <div>NIM</div><div>: <b>${d.nim}</b></div>
+        <div>Tanggal Daftar</div><div>: ${d.tanggal}</div>
+      </div>
+
+      <h3>💰 Rincian Biaya</h3>
+      <div class="detail-grid">
+        <div>UPP</div><div>: Rp ${(d.total-6150000).toLocaleString()}</div>
+        <div>UTS</div><div>: Rp 250.000</div>
+        <div>Bangunan</div><div>: Rp 5.000.000</div>
+        <div>Kemahasiswaan</div><div>: Rp 50.000</div>
+        <div>PKKMB</div><div>: Rp 600.000</div>
+        <div>Pendaftaran</div><div>: Rp 250.000</div>
+      </div>
+
+      <div class="detail-total">
+        TOTAL PEMBAYARAN : Rp ${d.total.toLocaleString()}
+      </div>
+
+    </div>
+    `
+
+    document.getElementById("detailPendaftar").classList.remove("hidden")
+  })
+}
+</script>
+
+<script>
+/* ===============================
+   PENYIMPANAN PERMANEN
+   =============================== */
+let DataPendaftar= JSON.parse(localStorage.getItem("dataPendaftar")) || []
+
+/* SIMPAN FUNGSI ASLI */
+const buatStrukLama = buatStruk
+
+/* OVERRIDE TANPA MENGUBAH ISI */
+buatStruk = function(){
+  let upp = Number(prodi.value)
+  let total = upp+250000+5000000+50000+600000+250000
+  let nim = "ULM"+Math.floor(Math.random()*900000+100000)
+  let tanggal = new Date().toLocaleString("id-ID")
+
+  dataPendaftar.push({
+    nama:nama.value,
+    nik:nik.value,
+    ttl:ttl.value,
+    alamat:alamat.value,
+    hp:hp.value,
+    email:email.value,
+    sekolah:sekolah.value,
+    prodi:prodi.options[prodi.selectedIndex].text,
+    total:total,
+    nim:nim,
+    tanggal:tanggal,
+    metode:metode.value,
+    status:lunas.checked ? "LUNAS" : "BELUM LUNAS"
+  })
+
+  localStorage.setItem("dataPendaftar",JSON.stringify(dataPendaftar))
+
+  buatStrukLama()
+  resetForm()
+}
+
+/* ===============================
+   RESET FORM
+   =============================== */
+function resetForm(){
+  document.querySelectorAll("input").forEach(i=>{
+    if(i.type==="checkbox") i.checked=false
+    else i.value=""
+  })
+  document.querySelectorAll("select").forEach(s=>s.selectedIndex=0)
+}
+
+/* ===============================
+   LIHAT PENDAFTAR
+   =============================== */
+function lihatPendaftar(){
+  loading(()=>{
+    let box=document.getElementById("listPendaftar")
+    box.innerHTML=""
+
+    if(dataPendaftar.length===0){
+      box.innerHTML="<p>Belum ada pendaftar.</p>"
+    }else{
+      dataPendaftar.forEach((d,i)=>{
+        box.innerHTML+=`
+        <div class="pendaftar-card" onclick="detailPendaftar(${i})" style="cursor:pointer">
+          <b>${i+1}. ${d.nama}</b><br>
+          <small>${d.prodi}</small><br>
+          <small>${d.tanggal}</small><br>
+          <small>Status: <b>${d.status}</b></small>
+        </div>`
+      })
+    }
+
+    document.getElementById("pendaftar").classList.remove("hidden")
+  })
+}
+
+/* ===============================
+   DETAIL PENDAFTAR
+   =============================== */
+function detailPendaftar(i){
+  loading(()=>{
+    let d=dataPendaftar[i]
+    isiDetail.innerHTML=`
+    <div class="detail-box">
+      <b>DATA DIRI</b><br><br>
+      Nama: ${d.nama}<br>
+      NIK: ${d.nik}<br>
+      TTL: ${d.ttl}<br>
+      Alamat: ${d.alamat}<br>
+      HP: ${d.hp}<br>
+      Email: ${d.email}<br>
+      Sekolah: ${d.sekolah}<br>
+      Prodi: ${d.prodi}<br>
+      NIM: <b>${d.nim}</b><br>
+      Tanggal: ${d.tanggal}<br><br>
+
+      <b>PEMBAYARAN</b><br>
+      Metode: ${d.metode}<br>
+      Status: <b>${d.status}</b><br><br>
+
+      <b>Total: Rp ${d.total.toLocaleString()}</b>
+    </div>
+    `
+    document.getElementById("detailPendaftar").classList.remove("hidden")
+  })
+}
+</script>
+
+</body>
+</html>
